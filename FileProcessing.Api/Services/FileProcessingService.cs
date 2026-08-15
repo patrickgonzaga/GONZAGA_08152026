@@ -29,7 +29,6 @@ namespace FileProcessing.Api.Services
                 {
                     records.Add(record);
                 }
-                ;
 
                 if (records.Count == 0)
                 {
