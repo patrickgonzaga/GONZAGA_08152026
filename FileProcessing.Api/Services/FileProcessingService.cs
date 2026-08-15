@@ -28,7 +28,8 @@ namespace FileProcessing.Api.Services
                 await foreach (var record in csv.GetRecordsAsync<SalesRecord>(cancellationToken))
                 {
                     records.Add(record);
-                };
+                }
+                ;
 
                 if (records.Count == 0)
                 {
