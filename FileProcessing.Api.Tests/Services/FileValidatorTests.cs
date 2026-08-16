@@ -14,14 +14,14 @@ namespace FileProcessing.Api.Tests.Services
             await Assert.ThrowsAsync<InvalidDataException>(() => validator.ValidateAsync(null, CancellationToken.None));
         }
 
-        [Fact]  
+        [Fact]
         public async Task ValidateAsync_EmptyFile_ThrowsInvalidDataException()
         {
             var fileMock = new Mock<IFormFile>();
             fileMock.Setup(f => f.Length).Returns(0);
             fileMock.Setup(f => f.FileName).Returns("test.csv");
             await Assert.ThrowsAsync<InvalidDataException>(() => validator.ValidateAsync(fileMock.Object, CancellationToken.None));
-        }   
+        }
 
         [Fact]
         public async Task ValidateAsync_ValidCsvFile_DoesNotThrow()
