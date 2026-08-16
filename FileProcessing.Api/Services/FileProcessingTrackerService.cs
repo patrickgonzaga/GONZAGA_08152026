@@ -6,12 +6,12 @@ namespace FileProcessing.Api.Services
     /// <summary>
     /// Tracks the processing of files and provides reports on processed files.
     /// </summary>
-    public class FileProcessingTracker : IFileProcessingTracker
+    public class FileProcessingTrackerService : IFileProcessingTrackerService
     {
         private readonly string _logFilePath;
         private readonly SemaphoreSlim _semaphoreSlim = new (1, 1);
 
-        public FileProcessingTracker(IWebHostEnvironment webHostEnvironment)
+        public FileProcessingTrackerService(IWebHostEnvironment webHostEnvironment)
         {
             var dataDirectory = Path.Combine(webHostEnvironment.ContentRootPath, "Data");
             Directory.CreateDirectory(dataDirectory);
@@ -29,6 +29,8 @@ namespace FileProcessing.Api.Services
             }
 
             var lines =  await File.ReadAllLinesAsync(_logFilePath, cancellationToken);
+            var totalCount = lines.Count(l => !string.IsNullOrWhiteSpace(l));
+
             var entries = lines
                 .Where(l => !string.IsNullOrWhiteSpace(l))
                 .Select(l => JsonSerializer.Deserialize<FileProcessingLogEntry>(l))
@@ -38,7 +40,7 @@ namespace FileProcessing.Api.Services
 
             return new FileProcessingReport
             {
-                TotalFilesProcessed = entries.Count,
+                TotalFilesProcessed = totalCount,
                 Files = entries
             };
         }

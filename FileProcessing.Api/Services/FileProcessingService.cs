@@ -9,10 +9,10 @@ namespace FileProcessing.Api.Services
     public class FileProcessingService : IFileProcessingService
     {
         private readonly IFileValidator _fileValidator;
-        private readonly IFileProcessingTracker _fileProcessingTracker;
+        private readonly IFileProcessingTrackerService _fileProcessingTracker;
         private readonly ILogger<FileProcessingService> _logger;
 
-        public FileProcessingService(ILogger<FileProcessingService> logger, IFileValidator fileValidator, IFileProcessingTracker fileProcessingTracker)
+        public FileProcessingService(ILogger<FileProcessingService> logger, IFileValidator fileValidator, IFileProcessingTrackerService fileProcessingTracker)
         {
             _logger = logger;
             _fileValidator = fileValidator;

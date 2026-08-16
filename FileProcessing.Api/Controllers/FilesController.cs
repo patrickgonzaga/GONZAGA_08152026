@@ -10,9 +10,9 @@ namespace FileProcessing.Api.Controllers
     public class FilesController : ControllerBase
     {
         private readonly IFileProcessingService _fileProcessingService;
-        private readonly IFileProcessingTracker _fileProcessingTracker;
+        private readonly IFileProcessingTrackerService _fileProcessingTracker;
         protected readonly ILogger<FilesController> _logger;
-        public FilesController(ILogger<FilesController> logger, IFileProcessingService fileProcessingService, IFileProcessingTracker fileProcessingTracker)
+        public FilesController(ILogger<FilesController> logger, IFileProcessingService fileProcessingService, IFileProcessingTrackerService fileProcessingTracker)
         {
             _logger = logger;
             _fileProcessingService = fileProcessingService;

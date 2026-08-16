@@ -2,7 +2,7 @@
 
 namespace FileProcessing.Api.Services
 {
-    public interface IFileProcessingTracker
+    public interface IFileProcessingTrackerService
     {
         /// <summary>
         /// Records a log entry for a processed file.

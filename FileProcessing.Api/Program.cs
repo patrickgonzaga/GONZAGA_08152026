@@ -9,7 +9,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IFileValidator, FileValidator>();
 builder.Services.AddScoped<IFileProcessingService, FileProcessingService>();
-builder.Services.AddSingleton<IFileProcessingTracker, FileProcessingTracker>();
+builder.Services.AddSingleton<IFileProcessingTrackerService, FileProcessingTrackerService>();
 builder.Services.AddScoped<ApiKeyMiddleware>();
 
 builder.Services.AddControllers();
