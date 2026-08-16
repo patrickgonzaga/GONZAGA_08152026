@@ -40,16 +40,8 @@ namespace FileProcessing.Api.Controllers
         [HttpPost("process")]
         public async Task<ActionResult> Process(IFormFile file, CancellationToken cancellationToken)
         {
-            try
-            {
-                var result = await _fileProcessingService.ProcessFileAsync(file, cancellationToken);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while uploading the file.");
-                return BadRequest(new { error = ex.Message });
-            }
+            var result = await _fileProcessingService.ProcessFileAsync(file, cancellationToken);
+            return Ok(result);
         }
     }
 }

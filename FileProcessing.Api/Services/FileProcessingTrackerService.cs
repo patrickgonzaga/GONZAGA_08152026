@@ -9,7 +9,7 @@ namespace FileProcessing.Api.Services
     public class FileProcessingTrackerService : IFileProcessingTrackerService
     {
         private readonly string _logFilePath;
-        private readonly SemaphoreSlim _semaphoreSlim = new (1, 1);
+        private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
         public FileProcessingTrackerService(IWebHostEnvironment webHostEnvironment)
         {
@@ -28,7 +28,7 @@ namespace FileProcessing.Api.Services
                 };
             }
 
-            var lines =  await File.ReadAllLinesAsync(_logFilePath, cancellationToken);
+            var lines = await File.ReadAllLinesAsync(_logFilePath, cancellationToken);
             var totalCount = lines.Count(l => !string.IsNullOrWhiteSpace(l));
 
             var entries = lines

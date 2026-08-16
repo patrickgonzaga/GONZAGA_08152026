@@ -11,6 +11,7 @@ builder.Services.AddScoped<IFileValidator, FileValidator>();
 builder.Services.AddScoped<IFileProcessingService, FileProcessingService>();
 builder.Services.AddSingleton<IFileProcessingTrackerService, FileProcessingTrackerService>();
 builder.Services.AddScoped<ApiKeyMiddleware>();
+builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 
 builder.Services.AddControllers();
 
@@ -28,5 +29,6 @@ app.MapControllers();
 app.UseHttpsRedirection();
 
 app.UseMiddleware<ApiKeyMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Run();
