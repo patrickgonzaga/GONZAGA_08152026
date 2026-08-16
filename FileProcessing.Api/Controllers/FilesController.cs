@@ -10,21 +10,25 @@ namespace FileProcessing.Api.Controllers
     public class FilesController : ControllerBase
     {
         private readonly IFileProcessingService _fileProcessingService;
+        private readonly IFileProcessingTracker _fileProcessingTracker;
         protected readonly ILogger<FilesController> _logger;
-        public FilesController(ILogger<FilesController> logger, IFileProcessingService fileProcessingService)
+        public FilesController(ILogger<FilesController> logger, IFileProcessingService fileProcessingService, IFileProcessingTracker fileProcessingTracker)
         {
             _logger = logger;
             _fileProcessingService = fileProcessingService;
+            _fileProcessingTracker = fileProcessingTracker;
         }
 
         /// <summary>
-        /// 
+        /// Retrieves a report of processed files, limited to the specified number of entries.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<ActionResult> Get()
+        [HttpGet("reports")]
+        public async Task<ActionResult> GetReports([FromQuery] int limit, CancellationToken cancellationToken)
         {
-            return Ok();
+            var effectiveLimit = limit <= 0 ? 20 : limit;
+            var report = await _fileProcessingTracker.GetReportsAsync(effectiveLimit, cancellationToken);
+            return Ok(report);
         }
 
         /// <summary>
