@@ -24,11 +24,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<ApiKeyMiddleware>();
+
 app.MapControllers();
 
 app.UseHttpsRedirection();
-
-app.UseMiddleware<ApiKeyMiddleware>();
-app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Run();
