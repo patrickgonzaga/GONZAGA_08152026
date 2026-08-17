@@ -17,18 +17,16 @@
         {
             if (!context.Request.Headers.TryGetValue(ApiKeyHeaderName, out var extractedApiKey))
             {
-                _logger.LogWarning("API Key was not provided.");
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                return;
+                _logger.LogError("API Key was not provided.");
+                throw new UnauthorizedAccessException("API Key was not provided.");
             }
 
             var apiKey = _configuration.GetValue<string>("ApiKey");
 
             if (string.IsNullOrEmpty(apiKey) || !apiKey.Equals(extractedApiKey))
             {
-                _logger.LogWarning("Unauthorized client attempted to access the API.");
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                return;
+                _logger.LogError("Unauthorized client attempted to access the API.");
+                throw new UnauthorizedAccessException("Unauthorized client attempted to access the API.");
             }
             await next(context);
         }

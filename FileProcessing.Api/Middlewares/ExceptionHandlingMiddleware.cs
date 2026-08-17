@@ -1,4 +1,6 @@
-﻿namespace FileProcessing.Api.Middlewares
+﻿using CsvHelper;
+
+namespace FileProcessing.Api.Middlewares
 {
     public class ExceptionHandlingMiddleware : IMiddleware
     {
@@ -15,10 +17,20 @@
             {
                 await next(context);
             }
+            catch (CsvHelperException ex)
+            {
+                _logger.LogError(ex, "Rejected request due to malformed CSV: {Path}", context.Request.Path);
+                await WriteError(context, StatusCodes.Status400BadRequest, "The CSV file is malformed or contains invalid data.");
+            }
             catch (InvalidDataException ex)
             {
-                _logger.LogWarning(ex, "Rejected request: {Path}", context.Request.Path);
+                _logger.LogError(ex, "Rejected request: {Path}", context.Request.Path);
                 await WriteError(context, StatusCodes.Status400BadRequest, ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logger.LogError(ex, "Unauthorized access attempt: {Path}", context.Request.Path);
+                await WriteError(context, StatusCodes.Status401Unauthorized, ex.Message);
             }
             catch (Exception ex)
             {
