@@ -17,9 +17,9 @@ namespace FileProcessing.Api.Tests.Middlewares
             var context = new DefaultHttpContext();
             var nextCalled = false;
 
-            await middleware.InvokeAsync(context, _ => { nextCalled = true; return Task.CompletedTask; });
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(
+                () => middleware.InvokeAsync(context, _ => { nextCalled = true; return Task.CompletedTask; }));
 
-            Assert.Equal(StatusCodes.Status401Unauthorized, context.Response.StatusCode);
             Assert.False(nextCalled);
         }
 
@@ -31,9 +31,9 @@ namespace FileProcessing.Api.Tests.Middlewares
             context.Request.Headers["X-API-KEY"] = "wrong-key";
             var nextCalled = false;
 
-            await middleware.InvokeAsync(context, _ => { nextCalled = true; return Task.CompletedTask; });
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(
+                () => middleware.InvokeAsync(context, _ => { nextCalled = true; return Task.CompletedTask; }));
 
-            Assert.Equal(StatusCodes.Status401Unauthorized, context.Response.StatusCode);
             Assert.False(nextCalled);
         }
 
