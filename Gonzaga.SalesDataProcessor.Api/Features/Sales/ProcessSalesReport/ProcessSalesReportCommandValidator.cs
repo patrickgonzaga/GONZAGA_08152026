@@ -28,4 +28,3 @@ namespace Gonzaga.SalesDataProcessor.Api.Features.Sales.ProcessSalesReport
         }
     }
 }
-    

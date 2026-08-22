@@ -33,7 +33,7 @@ namespace Gonzaga.SalesDataProcessor.Api.Common.Behavior
             {
                 throw new ValidationException(failures);
             }
-            
+
             return await next(cancellationToken);
         }
     }
