@@ -1,4 +1,4 @@
-# FileProcessing.Api
+# Gonzaga.SalesDataProcessor.Api
 
 A small ASP.NET Core Web API that accepts CSV file uploads, computes an aggregate and gets the average, and keeps a record of what's been processed.
 
@@ -10,16 +10,16 @@ A small ASP.NET Core Web API that accepts CSV file uploads, computes an aggregat
 ## Running locally
 
 ```bash
-dotnet run --project FileProcessing.Api
+dotnet run --project Gonzaga.SalesDataProcessor.Api
 ```
 
-The API listens on `http://localhost:5066` by default (see `FileProcessing.Api/Properties/launchSettings.json`).
+The API listens on `http://localhost:5066` by default (see `Gonzaga.SalesDataProcessor.Api/Properties/launchSettings.json`).
 
 ## Running with Docker
 
 ```bash
-docker build -f FileProcessing.Api/Dockerfile -t fileprocessing-api .
-docker run -d -p 8080:8080 -e ApiKey=your-key-here --name fileprocessing-api fileprocessing-api
+docker build -f Gonzaga.SalesDataProcessor.Api/Dockerfile -t gonzaga-salesdataprocessor-api .
+docker run -d -p 8080:8080 -e ApiKey=your-key-here --name gonzaga-salesdataprocessor-api gonzaga-salesdataprocessor-api
 ```
 
 The API is then reachable at `http://localhost:8080`.
@@ -31,12 +31,12 @@ Processed-file tracking is written to `Data/file-processing.log` inside the cont
 Every request under `/api` requires an `X-API-KEY` header matching the configured key. Missing or incorrect keys get a `401`.
 
 ```bash
-curl -H "X-API-KEY: development-api-key" http://localhost:5066/api/files/reports
+curl -H "X-API-KEY: development-api-key" http://localhost:5066/api/sales/reports
 ```
 
 ## Endpoints
 
-### `POST /api/files/process`
+### `POST /api/sales/process`
 
 Uploads a CSV and returns the record count and average of the `Amount` column.
 
@@ -53,7 +53,7 @@ Request:
 curl -X POST \
   -H "X-API-KEY: development-api-key" \
   -F "file=@Test-Data/sales.csv" \
-  http://localhost:5066/api/files/process
+  http://localhost:5066/api/sales/process
 ```
 
 Response:
@@ -61,13 +61,15 @@ Response:
 {
   "fileName": "sales.csv",
   "recordCount": 5,
-  "averageAmount": 3000
+  "averageAmount": 3000,
+  "processedAt": "2026-08-22T14:28:56.301Z",
+  "duration": 37
 }
 ```
 
 Rejected with `400` if the file is missing, empty, not a `.csv`, has no data rows.
 
-### `GET /api/files/reports`
+### `GET /api/sales/reports`
 
 Returns how many files have been processed in total, and the most recent entries.
 
@@ -75,7 +77,7 @@ Query parameter: `limit` (optional, default 20) — caps how many recent entries
 
 Request:
 ```bash
-curl -H "X-API-KEY: development-api-key" "http://localhost:5066/api/files/reports?limit=5"
+curl -H "X-API-KEY: development-api-key" "http://localhost:5066/api/sales/reports?limit=5"
 ```
 
 Response:
@@ -105,7 +107,7 @@ Covers the API key middleware (missing/wrong/valid key), file validation (null/e
 ## Project layout
 
 ```
-FileProcessing.Api/         the service
-FileProcessing.Api.Tests/   unit tests
-Test-Data/                  sample CSV for manual testing
+Gonzaga.SalesDataProcessor.Api/         the service
+Gonzaga.SalesDataProcessor.Api.Tests/   unit tests
+Test-Data/                              sample CSV for manual testing
 ```
