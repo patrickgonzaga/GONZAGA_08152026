@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using FluentValidation;
 using Gonzaga.SalesDataProcessor.Api.Common.Behavior;
 using Gonzaga.SalesDataProcessor.Api.Common.Endpoints;
@@ -11,7 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddApiVersioning();
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+});
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
