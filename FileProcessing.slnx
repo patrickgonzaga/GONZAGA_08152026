@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="FileProcessing.Api.Tests/FileProcessing.Api.Tests.csproj" />
-  <Project Path="FileProcessing.Api/FileProcessing.Api.csproj" />
-</Solution>

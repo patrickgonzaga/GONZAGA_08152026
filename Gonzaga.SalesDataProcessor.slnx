@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Gonzaga.SalesDataProcessor.Api.Tests/Gonzaga.SalesDataProcessor.Api.Tests.csproj" />
+  <Project Path="Gonzaga.SalesDataProcessor.Api/Gonzaga.SalesDataProcessor.Api.csproj" />
+</Solution>
